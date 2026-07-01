@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="GameForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="AdminForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+    </ItemGroup>
+
+  <!-- Копировать файл данных рядом с программой при каждой сборке.
+       Без этого запущенный .exe не найдёт movies_ru_emoji.tsv. -->
+  <ItemGroup>
+    <None Update="movies_ru_emoji.tsv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
