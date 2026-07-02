@@ -49,7 +49,6 @@ partial class GameForm
         labelEmoji.Name = "labelEmoji";
         labelEmoji.Size = new System.Drawing.Size(228, 73);
         labelEmoji.TabIndex = 0;
-        labelEmoji.Text = "label1";
         // 
         // labelResult
         // 
@@ -57,7 +56,6 @@ partial class GameForm
         labelResult.Name = "labelResult";
         labelResult.Size = new System.Drawing.Size(369, 27);
         labelResult.TabIndex = 1;
-        labelResult.Text = "label1";
         // 
         // labelScore
         // 
@@ -65,7 +63,7 @@ partial class GameForm
         labelScore.Name = "labelScore";
         labelScore.Size = new System.Drawing.Size(100, 23);
         labelScore.TabIndex = 2;
-        labelScore.Text = "Очки: 0";
+        labelScore.Text = "Счёт: 0";
         // 
         // buttonOpt1
         // 
@@ -79,9 +77,9 @@ partial class GameForm
         // 
         // buttonOpt2
         // 
-        buttonOpt2.Location = new System.Drawing.Point(523, 244);
+        buttonOpt2.Location = new System.Drawing.Point(507, 244);
         buttonOpt2.Name = "buttonOpt2";
-        buttonOpt2.Size = new System.Drawing.Size(157, 50);
+        buttonOpt2.Size = new System.Drawing.Size(185, 50);
         buttonOpt2.TabIndex = 4;
         buttonOpt2.Text = "button1";
         buttonOpt2.UseVisualStyleBackColor = true;
@@ -99,9 +97,9 @@ partial class GameForm
         // 
         // buttonOpt4
         // 
-        buttonOpt4.Location = new System.Drawing.Point(523, 321);
+        buttonOpt4.Location = new System.Drawing.Point(507, 330);
         buttonOpt4.Name = "buttonOpt4";
-        buttonOpt4.Size = new System.Drawing.Size(157, 59);
+        buttonOpt4.Size = new System.Drawing.Size(185, 50);
         buttonOpt4.TabIndex = 6;
         buttonOpt4.Text = "button1";
         buttonOpt4.UseVisualStyleBackColor = true;
@@ -119,7 +117,7 @@ partial class GameForm
         // 
         // buttonNext
         // 
-        buttonNext.Location = new System.Drawing.Point(328, 388);
+        buttonNext.Location = new System.Drawing.Point(317, 388);
         buttonNext.Name = "buttonNext";
         buttonNext.Size = new System.Drawing.Size(149, 37);
         buttonNext.TabIndex = 8;
@@ -141,7 +139,7 @@ partial class GameForm
         Controls.Add(labelScore);
         Controls.Add(labelResult);
         Controls.Add(labelEmoji);
-        Text = "Gameform";
+        Text = "Игра";
         ResumeLayout(false);
     }
 

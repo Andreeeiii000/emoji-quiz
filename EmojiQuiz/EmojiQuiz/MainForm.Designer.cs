@@ -35,10 +35,10 @@ partial class MainForm
         // 
         // label1
         // 
-        label1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)204));
-        label1.Location = new System.Drawing.Point(240, 73);
+        label1.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)204));
+        label1.Location = new System.Drawing.Point(207, 71);
         label1.Name = "label1";
-        label1.Size = new System.Drawing.Size(317, 71);
+        label1.Size = new System.Drawing.Size(412, 78);
         label1.TabIndex = 0;
         label1.Text = "Угадай по смайликам 🎬";
         // 
@@ -46,7 +46,7 @@ partial class MainForm
         // 
         buttonPlay.Location = new System.Drawing.Point(152, 233);
         buttonPlay.Name = "buttonPlay";
-        buttonPlay.Size = new System.Drawing.Size(101, 38);
+        buttonPlay.Size = new System.Drawing.Size(136, 50);
         buttonPlay.TabIndex = 1;
         buttonPlay.Text = "▶  Играть";
         buttonPlay.UseVisualStyleBackColor = true;
@@ -54,9 +54,9 @@ partial class MainForm
         // 
         // buttonAdmin
         // 
-        buttonAdmin.Location = new System.Drawing.Point(517, 233);
+        buttonAdmin.Location = new System.Drawing.Point(507, 233);
         buttonAdmin.Name = "buttonAdmin";
-        buttonAdmin.Size = new System.Drawing.Size(134, 38);
+        buttonAdmin.Size = new System.Drawing.Size(147, 50);
         buttonAdmin.TabIndex = 2;
         buttonAdmin.Text = "⚙  Администратор";
         buttonAdmin.UseVisualStyleBackColor = true;
@@ -70,7 +70,7 @@ partial class MainForm
         Controls.Add(buttonAdmin);
         Controls.Add(buttonPlay);
         Controls.Add(label1);
-        Text = "Form1";
+        Text = "Угадай по смайликам";
         ResumeLayout(false);
     }
 

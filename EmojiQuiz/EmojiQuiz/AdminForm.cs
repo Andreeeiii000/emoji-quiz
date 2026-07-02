@@ -9,15 +9,27 @@ public partial class AdminForm : Form
 
     private void buttonAdd_Click(object sender, EventArgs e)
     {
-        string emoji    = textEmoji.Text.Trim();    //Trim убирает случайные пробелы
+        string emoji    = textEmoji.Text.Trim();   // Trim убирает случайные пробелы
         string answer   = textAnswer.Text.Trim();
         string category = textCategory.Text.Trim();
-        
+ 
+        // Валидация: эмодзи и ответ обязательны.
         if (emoji == "" || answer == "")
         {
             MessageBox.Show(
                 "Заполните поля «Эмодзи» и «Ответ».",
                 "Проверьте ввод",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+            return;
+        }
+ 
+        // Проверка дубликата: вопрос с таким ответом уже есть в базе.
+        if (Db.Exists(answer))
+        {
+            MessageBox.Show(
+                $"Вопрос с ответом «{answer}» уже есть в базе.",
+                "Дубликат",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
             return;
@@ -30,11 +42,11 @@ public partial class AdminForm : Form
             "Готово",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information);
-        
+ 
         textEmoji.Clear();
         textAnswer.Clear();
         textCategory.Clear();
-        textEmoji.Focus();   //курсор сразу в первое поле
+        textEmoji.Focus();   // курсор сразу в первое поле
     }
 
     private void buttonBack_Click(object sender, EventArgs e)

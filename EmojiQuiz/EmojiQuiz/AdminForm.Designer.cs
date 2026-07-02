@@ -53,7 +53,7 @@ partial class AdminForm
         // 
         textEmoji.Location = new System.Drawing.Point(199, 119);
         textEmoji.Name = "textEmoji";
-        textEmoji.Size = new System.Drawing.Size(191, 23);
+        textEmoji.Size = new System.Drawing.Size(202, 23);
         textEmoji.TabIndex = 1;
         // 
         // label2
@@ -68,21 +68,21 @@ partial class AdminForm
         // 
         textAnswer.Location = new System.Drawing.Point(199, 183);
         textAnswer.Name = "textAnswer";
-        textAnswer.Size = new System.Drawing.Size(191, 23);
+        textAnswer.Size = new System.Drawing.Size(202, 23);
         textAnswer.TabIndex = 3;
         // 
         // textCategory
         // 
         textCategory.Location = new System.Drawing.Point(199, 240);
         textCategory.Name = "textCategory";
-        textCategory.Size = new System.Drawing.Size(191, 23);
+        textCategory.Size = new System.Drawing.Size(202, 23);
         textCategory.TabIndex = 5;
         // 
         // buttonAdd
         // 
         buttonAdd.Location = new System.Drawing.Point(320, 356);
         buttonAdd.Name = "buttonAdd";
-        buttonAdd.Size = new System.Drawing.Size(125, 50);
+        buttonAdd.Size = new System.Drawing.Size(141, 50);
         buttonAdd.TabIndex = 6;
         buttonAdd.Text = "Сохранить!";
         buttonAdd.UseVisualStyleBackColor = true;
@@ -119,7 +119,7 @@ partial class AdminForm
         Controls.Add(label2);
         Controls.Add(textEmoji);
         Controls.Add(label1);
-        Text = "Adminform";
+        Text = "Администратор";
         ResumeLayout(false);
         PerformLayout();
     }
