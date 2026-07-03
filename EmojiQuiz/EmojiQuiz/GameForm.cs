@@ -3,44 +3,81 @@ namespace EmojiQuiz;
 public partial class GameForm : Form
 {
     private static readonly Random rng = new();
-    
+ 
     private Question? current;
-    
+ 
     private int score = 0;
+ 
+    //параметры раунда, которые приходят из MainForm
+    private readonly string? category;      //null или "Все категории" — без фильтра
+    private readonly int roundLength;        //сколько вопросов в раунде
+    private readonly int timeLimitSeconds;   //сколько секунд на один вопрос
     
-    public GameForm()
+    private int? lastQuestionId;   
+ 
+    private int questionsAsked = 0;          //сколько вопросов уже показано
+    private int timeLeft;                    //сколько секунд осталось на текущий вопрос
+ 
+    //Конструктор без параметров нужен визуальному конструктору форм Rider —
+    //он просто запускает игру с настройками по умолчанию (без фильтра, 10 вопросов, 15 секунд)
+    public GameForm() : this(null, 10, 15) { }
+    
+    //Основной конструктор - вызывается из MainForm с настройками, которые выбрал игрок.
+    public GameForm(string? category, int roundLength, int timeLimitSeconds)
     {
         InitializeComponent();
-        //Первый вопрос - сразу при открытии окна
+ 
+        this.category         = category;
+        this.roundLength      = roundLength;
+        this.timeLimitSeconds = timeLimitSeconds;
+        
         NextQuestion();
     }
     
     private void NextQuestion()
     {
-        current = Db.GetRandom();
+        questionsAsked++;
  
-        //Кнопка "Дальше" нужна только после ответа, мы ее прячем на время нового вопроса
+        // Раунд закончен - показать итог и вернуться в меню
+        if (questionsAsked > roundLength)
+        {
+            timerCountdown.Stop();
+            MessageBox.Show(
+                $"Раунд завершён!\n\nВаш счёт: {score} из {roundLength}",
+                "Результат",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+            this.Close();
+            return;
+        }
+ 
+        current = Db.GetRandom(category, lastQuestionId);
+        
         buttonNext.Visible = false;
  
         if (current == null)
         {
+            timerCountdown.Stop();
             labelEmoji.Text  = "😕";
-            labelResult.Text = "База пустая. Добавьте вопросы в разделе «Администратор».";
+            labelResult.Text = string.IsNullOrEmpty(category) || category == "Все категории"
+                ? "База пустая. Добавьте вопросы в разделе «Администратор»."
+                : $"В категории «{category}» пока нет вопросов.";
+            labelTimer.Text = "";
             HideAllButtons();
             return;
         }
  
         labelEmoji.Text  = current.Emoji;
-        labelResult.Text = "";   //убираем результат предыдущего вопроса
+        lastQuestionId = current.Id;
+        labelResult.Text = "";   //убир. результат предыдущего вопроса
  
         // один правильный плюс три неправильных, затем перемешать
         var options = Db.GetWrongAnswers(current.Answer, 3);
         options.Add(current.Answer);
         Shuffle(options);
  
-        // Сколько вариантов нашлось, столько кнопок и показываем.
-        // Если в базе меньше четырёх разных ответов, лишние кнопки прячем,
-        // иначе обращение к options[3] выбросит ошибку и программа упадёт.
+        //Сколько вариантов нашлось, столько кнопок и показываем. 
+        //Если в нашем базе меньше четырёх разных ответов, лишние кнопки прячем, иначе обращение к options[3] выбросит ошибку и программа упадет
         var buttons = new[] { buttonOpt1, buttonOpt2, buttonOpt3, buttonOpt4 };
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -48,19 +85,58 @@ public partial class GameForm : Form
             {
                 buttons[i].Text    = options[i];
                 buttons[i].Visible = true;
-                buttons[i].Enabled = true;   //включаем заново, так как на прошлом вопросе могли заблокировать
+                buttons[i].Enabled = true;   //включаем заново - на прошлом вопросе могли заблокировать
             }
             else
             {
                 buttons[i].Visible = false;
             }
         }
+ 
+        //запускаем обратный отсчет для нового вопроса.
+        StartTimer();
+    }
+    
+    //Запустить таймер заново на timeLimitSeconds секунд.
+    private void StartTimer()
+    {
+        timeLeft = timeLimitSeconds;
+        labelTimer.Text = "⏱ " + timeLeft;
+        timerCountdown.Stop();
+        timerCountdown.Start();
+    }
+ 
+    //Обработчик тика таймера - вызывается раз в секунду, пока таймер запущен.
+    private void timerCountdown_Tick(object sender, EventArgs e)
+    {
+        timeLeft--;
+        labelTimer.Text = "⏱ " + timeLeft;
+ 
+        if (timeLeft <= 0)
+        {
+            timerCountdown.Stop();
+            TimeUp();
+        }
+    }
+ 
+    //Время вышло - считаем это неверным ответом, но без выбранного варианта
+    private void TimeUp()
+    {
+        if (current == null) return;
+ 
+        labelResult.Text = "⌛ Время вышло! Правильный ответ: " + current.Answer;
+        labelScore.Text  = "Счёт: " + score;   
+ 
+        DisableAllButtons();
+        buttonNext.Visible = true;
     }
     
     // общий обработчик для всех четырёх кнопок
     private void CheckAnswer(string chosen)
     {
         if (current == null) return;   //база пустая - нечего проверять
+ 
+        timerCountdown.Stop();   //ответили - таймер больше не нужен
  
         if (chosen == current.Answer)
         {
@@ -74,9 +150,7 @@ public partial class GameForm : Form
  
         labelScore.Text = "Счёт: " + score;
  
-        //Блокируем варианты, чтобы нельзя было кликнуть ещё раз по тому же вопросу,
-        //и даем игроку время прочитать результат — следующий вопрос загрузится
-        //только по нажатию buttonNext (в NextQuestion() мы не идём сразу).
+        // Блокируем варианты, чтобы нельзя было кликнуть ещё раз по тому же вопросу
         DisableAllButtons();
         buttonNext.Visible = true;
     }
@@ -135,6 +209,7 @@ public partial class GameForm : Form
 
     private void buttonBack_Click(object sender, EventArgs e)
     {
+        timerCountdown.Stop();
         this.Close();
     }
 }

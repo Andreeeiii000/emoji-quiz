@@ -31,23 +31,23 @@ partial class AdminForm
     /// </summary>
     private void InitializeComponent()
     {
-        label1 = new System.Windows.Forms.Label();
+        labelEmojiCaption = new System.Windows.Forms.Label();
         textEmoji = new System.Windows.Forms.TextBox();
-        label2 = new System.Windows.Forms.Label();
+        labelAnswerCaption = new System.Windows.Forms.Label();
         textAnswer = new System.Windows.Forms.TextBox();
         textCategory = new System.Windows.Forms.TextBox();
         buttonAdd = new System.Windows.Forms.Button();
         buttonBack = new System.Windows.Forms.Button();
-        label3 = new System.Windows.Forms.Label();
+        labelCategoryCaption = new System.Windows.Forms.Label();
         SuspendLayout();
         // 
-        // label1
+        // labelEmojiCaption
         // 
-        label1.Location = new System.Drawing.Point(93, 119);
-        label1.Name = "label1";
-        label1.Size = new System.Drawing.Size(100, 23);
-        label1.TabIndex = 0;
-        label1.Text = "Эмодзи:";
+        labelEmojiCaption.Location = new System.Drawing.Point(93, 119);
+        labelEmojiCaption.Name = "labelEmojiCaption";
+        labelEmojiCaption.Size = new System.Drawing.Size(100, 23);
+        labelEmojiCaption.TabIndex = 0;
+        labelEmojiCaption.Text = "Эмодзи:";
         // 
         // textEmoji
         // 
@@ -56,13 +56,13 @@ partial class AdminForm
         textEmoji.Size = new System.Drawing.Size(202, 23);
         textEmoji.TabIndex = 1;
         // 
-        // label2
+        // labelAnswerCaption
         // 
-        label2.Location = new System.Drawing.Point(93, 181);
-        label2.Name = "label2";
-        label2.Size = new System.Drawing.Size(100, 23);
-        label2.TabIndex = 2;
-        label2.Text = "Ответ:";
+        labelAnswerCaption.Location = new System.Drawing.Point(93, 181);
+        labelAnswerCaption.Name = "labelAnswerCaption";
+        labelAnswerCaption.Size = new System.Drawing.Size(100, 23);
+        labelAnswerCaption.TabIndex = 2;
+        labelAnswerCaption.Text = "Ответ:";
         // 
         // textAnswer
         // 
@@ -83,6 +83,10 @@ partial class AdminForm
         buttonAdd.Location = new System.Drawing.Point(320, 356);
         buttonAdd.Name = "buttonAdd";
         buttonAdd.Size = new System.Drawing.Size(141, 50);
+        buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        buttonAdd.FlatAppearance.BorderSize = 0;
+        buttonAdd.BackColor = System.Drawing.Color.FromArgb(38, 70, 83);
+        buttonAdd.ForeColor = System.Drawing.Color.White;
         buttonAdd.TabIndex = 6;
         buttonAdd.Text = "Сохранить!";
         buttonAdd.UseVisualStyleBackColor = true;
@@ -93,38 +97,44 @@ partial class AdminForm
         buttonBack.Location = new System.Drawing.Point(12, 12);
         buttonBack.Name = "buttonBack";
         buttonBack.Size = new System.Drawing.Size(120, 29);
+        buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+        buttonBack.FlatAppearance.BorderSize = 1;
+        buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(38, 70, 83);
+        buttonBack.BackColor = System.Drawing.Color.White;
+        buttonBack.ForeColor = System.Drawing.Color.FromArgb(38, 70, 83);
         buttonBack.TabIndex = 7;
         buttonBack.Text = "< Назад в меню";
         buttonBack.UseVisualStyleBackColor = true;
         buttonBack.Click += buttonBack_Click;
         // 
-        // label3
+        // labelCategoryCaption
         // 
-        label3.Location = new System.Drawing.Point(93, 240);
-        label3.Name = "label3";
-        label3.Size = new System.Drawing.Size(100, 23);
-        label3.TabIndex = 8;
-        label3.Text = "Категория:";
+        labelCategoryCaption.Location = new System.Drawing.Point(93, 240);
+        labelCategoryCaption.Name = "labelCategoryCaption";
+        labelCategoryCaption.Size = new System.Drawing.Size(100, 23);
+        labelCategoryCaption.TabIndex = 8;
+        labelCategoryCaption.Text = "Категория:";
         // 
         // AdminForm
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         ClientSize = new System.Drawing.Size(800, 450);
-        Controls.Add(label3);
+        BackColor = System.Drawing.Color.FromArgb(241, 250, 238);
+        Controls.Add(labelCategoryCaption);
         Controls.Add(buttonBack);
         Controls.Add(buttonAdd);
         Controls.Add(textCategory);
         Controls.Add(textAnswer);
-        Controls.Add(label2);
+        Controls.Add(labelAnswerCaption);
         Controls.Add(textEmoji);
-        Controls.Add(label1);
+        Controls.Add(labelEmojiCaption);
         Text = "Администратор";
         ResumeLayout(false);
         PerformLayout();
     }
 
-    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.Label labelCategoryCaption;
 
     private System.Windows.Forms.Button buttonBack;
 
@@ -134,11 +144,11 @@ partial class AdminForm
 
     private System.Windows.Forms.TextBox textAnswer;
 
-    private System.Windows.Forms.Label label2;
+    private System.Windows.Forms.Label labelAnswerCaption;
 
     private System.Windows.Forms.TextBox textEmoji;
 
-    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.Label labelEmojiCaption;
 
     #endregion
 }

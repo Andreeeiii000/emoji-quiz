@@ -9,11 +9,11 @@ public partial class AdminForm : Form
 
     private void buttonAdd_Click(object sender, EventArgs e)
     {
-        string emoji    = textEmoji.Text.Trim();   // Trim убирает случайные пробелы
+        string emoji    = textEmoji.Text.Trim();   // rim убирает случайные пробелы
         string answer   = textAnswer.Text.Trim();
         string category = textCategory.Text.Trim();
  
-        // Валидация: эмодзи и ответ обязательны.
+        //Валидация: эмодзи и ответ обязательны
         if (emoji == "" || answer == "")
         {
             MessageBox.Show(
@@ -24,7 +24,7 @@ public partial class AdminForm : Form
             return;
         }
  
-        // Проверка дубликата: вопрос с таким ответом уже есть в базе.
+        //Проверка дубликата: вопрос с таким ответом уже есть в базе
         if (Db.Exists(answer))
         {
             MessageBox.Show(
@@ -46,7 +46,7 @@ public partial class AdminForm : Form
         textEmoji.Clear();
         textAnswer.Clear();
         textCategory.Clear();
-        textEmoji.Focus();   // курсор сразу в первое поле
+        textEmoji.Focus();   //курсор сразу в первое поле
     }
 
     private void buttonBack_Click(object sender, EventArgs e)

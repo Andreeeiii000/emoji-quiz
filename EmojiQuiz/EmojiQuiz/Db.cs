@@ -28,9 +28,9 @@ static class Db
         using var ctx = new QuizContext();
         return ctx.Questions.Any(q => q.Answer == answer);
     }
- 
+    
     // Добавить вопрос. Используется и AdminForm, и SeedFromFile.
-    public static void Add(string emoji, string answer, string category)
+    public static void Add(string emoji, string answer, string? category)
     {
         using var ctx = new QuizContext();
         ctx.Questions.Add(new Question
@@ -42,17 +42,48 @@ static class Db
         ctx.SaveChanges();   // без SaveChanges изменения не сохранятся в файл
     }
  
-    // Вернуть случайный вопрос из базы.
-    // EF.Functions.Random() → SQL RANDOM(); возвращает null, если база пустая.
-    public static Question? GetRandom()
+    // НОВОЕ (пункт 5): список категорий, которые реально есть в базе, без повторов, по алфавиту.
+    // Используется в MainForm для заполнения comboCategory.
+    public static List<string> GetCategories()
     {
         using var ctx = new QuizContext();
         return ctx.Questions
-            .OrderBy(q => EF.Functions.Random())
-            .FirstOrDefault();
+            .Select(q => q.Category)
+            .Where(c => c != "")
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+    }
+ 
+    // ИЗМЕНЕНО (пункт 5): добавлен необязательный параметр category.
+    // category == null или "Все категории" — вопрос из любой категории (как было раньше).
+    // Иначе — только из указанной категории.
+    // EF.Functions.Random() → SQL RANDOM(); возвращает null, если подходящих строк нет.
+    public static Question? GetRandom(string? category = null, int? excludeId = null)
+    {
+        using var ctx = new QuizContext();
+        var query = ctx.Questions.AsQueryable();
+
+        if (!string.IsNullOrEmpty(category) && category != "Все категории")
+            query = query.Where(q => q.Category == category);
+
+        var filtered = excludeId.HasValue
+            ? query.Where(q => q.Id != excludeId.Value)
+            : query;
+
+        var result = filtered.OrderBy(q => EF.Functions.Random()).FirstOrDefault();
+
+        // Если исключили единственный вопрос в категории — вернём его же,
+        // иначе игра решит, что вопросы кончились.
+        if (result == null && excludeId.HasValue)
+            result = query.OrderBy(q => EF.Functions.Random()).FirstOrDefault();
+
+        return result;
     }
  
     // Вернуть count случайных НЕПРАВИЛЬНЫХ ответов — для кнопок вариантов.
+    // Берём из всей базы (не только из выбранной категории), чтобы вариантов
+    // хватало даже для маленькой категории.
     // Distinct() стоит ДО OrderBy(Random()), иначе EF Core выбросит ORDER BY из SQL
     // и варианты перестанут быть случайными (всегда одни и те же три).
     public static List<string> GetWrongAnswers(string correct, int count)
